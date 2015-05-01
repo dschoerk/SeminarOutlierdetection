@@ -1,19 +1,3 @@
-%%% File-Information {{{
-%%% Filename: template_bericht.tex
-%%% Purpose: lab report, technical report, project report
-%%% Time-stamp: <2004-06-22 23:36:32 xx>
-%%% Authors: The LaTeX@TUG-Team [http://latex.tugraz.at/]:
-%%%          Karl Voit (vk), Michael Prokop (mp), Stefan Sollerer (ss)
-%%% History:
-%%%   20040625 (vk,ss) initial version
-%%%
-%%% Notes:
-%%%
-%%%
-%%%
-%%% }}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% main document {{{
 
 \documentclass[
 a4paper,     %% defines the paper size: a4paper (default), a5paper, letterpaper, ...
@@ -71,6 +55,7 @@ a4paper,     %% defines the paper size: a4paper (default), a5paper, letterpaper,
  \pagenumbering{arabic} %% normal page numbers (include it, if roman was used above)
 
 \section{Introduction}
+\label{sec:intro}
 Outlier Detection is the identification of data which is not conform to an expected pattern. Unlike in clustering, where items of common behavior are grouped together, and outliers may be seen as unwanted noise, we are actively searching with outlier detection methods for anomalies rather than common patterns in data. Outlier detection is a heavily researched topic and has in its generality a wide range of applications. Some examples are fault detection in safety critical systems, supervision of banking systems, video surveillance or intrusion detection in cyber security. In all those cases we want to automatically distinguish usual behavior from abnormal behavior, which may indicate a system breakdown, fraud, etc. Outliers may also be of use in a more positive way. For example human resource management may use outlier detection techniques to find people capable of a very diverse set of skills. From those examples we can conclude that in many cases abnormal data may be of great interest instead of data following a common pattern. 
 Until now the very generic term data was used, we now want to closer specify how input data for outlier detection algorithms may look like. A single data instance consists of multiple attributes, similar to descriptors in image analysis. Data attributes can be classified in different types of data like binary, categorial, discrete or continous data. Each data instance may contain one (univariate) or multiple (multivariate) attributes. In the multivariate case the attribute types may be coherent or different among attributes. 
 Consider Fig.~\ref{fig:outlierExample} as an abstract example with input data in the attribute space $\mathbb{R}^2$. Each data point consists of two attributes $p=(x,y)$ with $x,y \in \mathbb{R}$. The data is split into several regions. $N_1$ and $N_2$ refer to normal regions, those points describe normal behavior. $O_1$ and $O_2$ are single outliers, $O_3$ is an outlying region. 
@@ -83,7 +68,8 @@ Consider Fig.~\ref{fig:outlierExample} as an abstract example with input data in
 	\label{fig:outlierExample}
 \end{figure}
 
-\subsection{Types of supervision}
+\subsection{Types of Supervision}
+\label{sec:types_of_supervision}
 Outlier detection methods can be classified by their type of supervision. Besides the actual data instances an outlier detection algorithm may also use additional information for distinction of outliers from inliers. Such information can be class labels as they are used in pattern matching algorithms. The data instances of a training dataset is augumented with class information. This information enables us to generate a predictive model which may classify data instances of test data. Depending on how much a method utilizes this additional information we distinguish three classes of supervision. 
 \\
 \textit{Supervised methods} make heavy use of labeling information. These techniques require class (labeling) information for each normal and outlier point in the training dataset. Typically a predicitive model is built which enables the algorithm to classify further data points into normals or outliers. The main drawback of supervised methods is it may be very expensive to acquire correctly labeled training datasets. Depending on the field of use a human expert may be required to do a correct labeling or atleast correct a given automatic labeling of training data. 
@@ -92,6 +78,12 @@ Outlier detection methods can be classified by their type of supervision. Beside
 \\
 \textit{Unsupervised methods} as a third method does not rely on any additional information. Therefore these methods are widely applicable since no additional information must be provided. Still we need some way of categorising input data points. For example statistic methods can be used to adapt a parametric distribution to normal and/or abnormal data. Based on a statistical test we may distinguish inliers from outliers. Also many techniques rely on the fact that normal data instances are occuring more frequently than abnormal data instances. Therefore frequently occuring patterns are classified as normal, whereas rare patterns are assumed to be abnormal. 
 
+\subsection{Results of Outlier Techniques}
+Another important aspect of an outlier detection technique is the manner in which an outlier is reported. In section \ref{sec:intro} we refered to training data as labeled input data. Labeled either as normal data instance or as an outlier. For outputs of outlier detection techniques we distinguish two classes. The first class are labeling outlier techniques. Those techniques put binary labels on each point identifying them as outliers or inliers, just as we did before for training data. Often these techniques are also called hard classifiers \cite{ben2005outlier}. 
+On the other hand there are scoring outlier detection techniques, which are also called soft classification techniques. Scoring techniques determine an outlier score which indicates the outlierness of a point. Which is a continuous value ranging e.g. from being an inlier (0) to being an outlier(1). Scoring techniques enable us to create a ranking among data instances. Through this ranking we can find the most outlying point. Based on a threshold we can also compute binary labels for results computed by a scoring approach.
+
+
+
 global vs local
 labeling vs scoring = hard / soft
 TypeI TypeII outliers
@@ -99,11 +91,12 @@ TypeI TypeII outliers
 side products of clustering
 categories of outlier detection methods
 
+\subsection{Overview of Outlier Detection Techniques}
 proximity based
 angle based
 
 \section{Outlier Detection in High Dimensional Data}
-
+problems rising with high dimensionality
 
 \section{Application of Outlier Detection Techniques}
 
@@ -111,11 +104,20 @@ angle based
 
 \section{Identifying Density-based Local Outliers}
 
+image processing aggarwal p19
+
 
  \appendix  %% include it, if something (bibliography, index, ...) follows below
  \bibliographystyle{plain}
 
- \bibliography{projekt}
+\cite{aggar2001}
+\cite{angiulli2002fast}
+\cite{ben2005outlier}
+\cite{breunig2000lof}
+\cite{chandola2007outlier}
+\cite{zimek2012survey}
+
+ \bibliography{literature}
 
 \end{document}
 
