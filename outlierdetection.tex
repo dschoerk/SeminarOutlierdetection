@@ -125,25 +125,15 @@ Outlier detection has applications in numerous fields, including fraud detection
 An important problem not only in outlier detection but also in other fields like machine learning, statistics and optimization is the meaningfulness of distance metrics in higher dimensions. As a prominent example remember the LOF algorithm which has been previously investigated. According to Aggarwal et. al. \cite{aggarwal2001surprising} the expressiveness of the $L_k$ norm vanishes with a high number of dimensions. More specifically it is shown that if $\lim\limits_{d \rightarrow \infty}{var(\frac{\|X_d\|_k}{E[\|X_d\|_k]})}=0$ then $\frac{Dmax^k_d-Dmin^k_d}{Dmin^k_d} \rightarrow 0$. Which means that the expressiveness gets lower with an increasing number of dimensions. In other words the variance approaches zero, and so does the the distance measure between a maximum and a minimum point in a dataset. Further \cite{aggarwal2001surprising} shows that in a high dimensional space the contrast between $Dmax^k_d-Dmin^k_d$ increases with $d^{1/k-1/2}$. For the manhattan distance this approaches zero, and for the euclidean distance it's constantly 1. For any $k>0$ we approach infinity. For the selection of a metric this means that in higher dimensions $L_k$ norms with lower $k$ are more expressive.
 
 \subsection{Meaningful Dimensions}
-
-
-For problems like outlier detection and clustering \cite{aggar2001} has shown that ... subspaces useful
- 
-Curse of dimensionality
-
-problems rising with high dimensionality
-
-\subsection{Overview of Outlier Detection Techniques}
-distance based outliers
-angle based
+\todo{describe more problems from \cite{zimek2012survey}}
 
 \section{Angle Based Outlier Detection \cite{kriegel2008angle}} 
+We previously investigated the problems arising with distance metrics in high dimensional spaces. Since these metrics become very inaccurate in high dimensions we would like to avoid them. Angle based outlier detection is one method to successfully avoid flawed distance metrics. Instead of distances angle based methods use the variance of angles relative to a reference point. For the center of a cluster the variance between angles is big, because neighbours appear in all directions. Approaching the border of a cluster the variance of angles becomes smaller. 
 
-\section{Feature Bagging} ensembles
+\section{Evolutionary Outlier Detection \cite{aggar2001}}
 
-\section{Subspace Outlier Detection}
+\section{Outlier Detection with Ensembles \cite{nguyen2010mining}} ensembles
 
-\section{Identifying Density-based Local Outliers}
 
 
 image processing aggarwal p19
@@ -159,6 +149,7 @@ image processing aggarwal p19
 \cite{chandola2007outlier}
 \cite{zimek2012survey}
 \cite{aggarwal2001surprising}
+\cite{nguyen2010mining}
 
 \bibliography{literature}
 
