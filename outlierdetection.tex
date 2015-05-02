@@ -17,6 +17,8 @@ a4paper,     %% defines the paper size: a4paper (default), a5paper, letterpaper,
 12pt         %% set default font size to 12 point
 ]{scrartcl}  %% article, see KOMA documentation (scrguide.dvi)
 
+\usepackage{todonotes}
+
 \usepackage[english,german]{babel} 
 \usepackage[latin1]{inputenc}
 
@@ -80,29 +82,69 @@ Outlier detection methods can be classified by their type of supervision. Beside
 
 \subsection{Results of Outlier Techniques}
 Another important aspect of an outlier detection technique is the manner in which an outlier is reported. In section \ref{sec:intro} we refered to training data as labeled input data. Labeled either as normal data instance or as an outlier. For outputs of outlier detection techniques we distinguish two classes. The first class are labeling outlier techniques. Those techniques put binary labels on each point identifying them as outliers or inliers, just as we did before for training data. Often these techniques are also called hard classifiers \cite{ben2005outlier}. 
-On the other hand there are scoring outlier detection techniques, which are also called soft classification techniques. Scoring techniques determine an outlier score which indicates the outlierness of a point. Which is a continuous value ranging e.g. from being an inlier (0) to being an outlier(1). Scoring techniques enable us to create a ranking among data instances. Through this ranking we can find the most outlying point. Based on a threshold we can also compute binary labels for results computed by a scoring approach.
+On the other hand there are scoring outlier detection techniques, which are also called soft classification techniques. Scoring techniques determine an outlier score which indicates the outlierness of a point. Which is a continuous value ranging e.g. from being an inlier (0) to being an outlier(1). Scoring techniques enable us to create a ranking among data instances. Through this ranking we can find the most outlying point or based on a threshold we can also compute binary labels for results of a scoring approach.
 
-
-
+\todo{eventually more basic terms to describe if needed}
 global vs local
-labeling vs scoring = hard / soft
 TypeI TypeII outliers
 
-side products of clustering
-categories of outlier detection methods
+\section{Density-Based Local Outliers}
+For a first method we will look into LOF \cite{breunig2000lof}. This method uses the local densities of data instances to describe its outlierness. Therefore we can classify LOF as a scoring method. This score is called the \textit{local outlier factor}. LOF is local in the sense that it uses the degree of isolation of objects depend on the distances to the local neighbours of a data instance. This local procedure has an import benefit in contrast to other global methods. 
 
-\subsection{Overview of Outlier Detection Techniques}
-proximity based
-angle based
+Consider Fig~\ref{fig:global_example} as an example showing be difference between local and global methods. For a simple global method we first compute all distances $d(p,q)$ between data instances. From a fixed point p we check distances to all other data instances. We count the number of distances being greater than $dmin$ a fixed (global) threshold. If this number is greater than $pct$ a certain percentage of points we define this point as an outlier. Applied to the dataset in Fig~\ref{fig:global_example} we need $dmin$ to be big enough such that data instances in $C1$ are not recognised as outliers. Since the distances between points in $C2$ are much smaller all points are correctly identified to be inliers. Also $O1$ is correctly identified as an outlier, but $O1$ is not. This is because the distance value $dmin$ was chosen globally to fit data points in $C1$. See \cite{breunig2000lof} for further details on this example. Using density based local outliers we are able to surpass these shortcomings. 
+ 
+The outlier definition for LOF is based on the k-distance for each data instance. The k-distance is defined to be the distance to the kth-nearest-neighbour. Further LOF defines the reachability distance from p to q to be the maximum of the distance from p to q and the k-distance of p. For each data instance the local reachability density (lrd) is computed by summing up the reachability distances from its k-nearest-neighbours and normalizing it. To compute the final LOF factor for a point p the local reachability densities from the k-neighbourhood are summed and normalized by the lrd of p. 
 
-\section{Outlier Detection in High Dimensional Data}
+\begin{equation}
+lrd(p) = (\frac{\sum\limits_{o \in N_k(p)}{reachdist(p,o)}}{|N_k(p)|}))^{-1}
+\end{equation}
+where $N_k(p)$ is the set of k-nearest-neighbors
+
+\begin{equation}
+LOF(p) = \frac{\sum\limits_{o \in N_k(p)}{\frac{lrd(o)}{lrd(p)}}}{|N_k(p)|}
+\end{equation}
+
+See \cite{breunig2000lof} for equations and further details. The defined LOF equation computes the factor of outlierness. 
+
+
+\begin{figure}
+	\begin{center}
+    	\includegraphics[width=0.5\textwidth]{images/global_example}
+    \end{center}
+	\caption{Global vs. Local Outlier Detection}
+	\label{fig:global_example}
+\end{figure}
+
+
+\section{Outlier Detection in High Dimensional Data\cite{aggar2001}} 
+
+\todo{add info from \cite{zimek2012survey}}
+Outlier detection has applications in numerous fields, including fraud detection, network analysis and pattern recognition. Many of these fields usually work with high dimensional data. But with high dimensional data also problems arise. Many outlier detections rely on distance metrics (L1-,L2-norm) which become meaningless in higher dimensions. In the last section we looked at LOF, which also suffers from these kind of problems. Since high dimensional data is often used it is meaningful to further investigate those problems. In this section we will describe the upcoming problems for high dimensional datasets.
+
+\subsection{Distance Metrics in High Dimensional Spaces}
+An important problem not only in outlier detection but also in other fields like machine learning, statistics and optimization is the meaningfulness of distance metrics in higher dimensions. As a prominent example remember the LOF algorithm which has been previously investigated. According to Aggarwal et. al. \cite{aggarwal2001surprising} the expressiveness of the $L_k$ norm vanishes with a high number of dimensions. More specifically it is shown that if $\lim\limits_{d \rightarrow \infty}{var(\frac{\|X_d\|_k}{E[\|X_d\|_k]})}=0$ then $\frac{Dmax^k_d-Dmin^k_d}{Dmin^k_d} \rightarrow 0$. Which means that the expressiveness gets lower with an increasing number of dimensions. In other words the variance approaches zero, and so does the the distance measure between a maximum and a minimum point in a dataset. Further \cite{aggarwal2001surprising} shows that in a high dimensional space the contrast between $Dmax^k_d-Dmin^k_d$ increases with $d^{1/k-1/2}$. For the manhattan distance this approaches zero, and for the euclidean distance it's constantly 1. For any $k>0$ we approach infinity. For the selection of a metric this means that in higher dimensions $L_k$ norms with lower $k$ are more expressive.
+
+\subsection{Meaningful Dimensions}
+
+
+For problems like outlier detection and clustering \cite{aggar2001} has shown that ... subspaces useful
+ 
+Curse of dimensionality
+
 problems rising with high dimensionality
 
-\section{Application of Outlier Detection Techniques}
+\subsection{Overview of Outlier Detection Techniques}
+distance based outliers
+angle based
 
+\section{Angle Based Outlier Detection \cite{kriegel2008angle}} 
 
+\section{Feature Bagging} ensembles
+
+\section{Subspace Outlier Detection}
 
 \section{Identifying Density-based Local Outliers}
+
 
 image processing aggarwal p19
 
@@ -116,8 +158,9 @@ image processing aggarwal p19
 \cite{breunig2000lof}
 \cite{chandola2007outlier}
 \cite{zimek2012survey}
+\cite{aggarwal2001surprising}
 
- \bibliography{literature}
+\bibliography{literature}
 
 \end{document}
 
